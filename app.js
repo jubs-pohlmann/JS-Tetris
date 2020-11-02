@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.querySelector('#start-button');
     const width = 10;
     let nextRandom = 0;
+    let timerId;
 
     /* HOW TO USE FUNCTIONS:
     function functionName(){
@@ -88,9 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
             squares[currentPosition + index].classList.remove('tetromino');
         });
     }
-    
-    //TIMES AND INTERVALS
-    timerId = setInterval(moveDown, 1000);
 
     //ASSIGN FUNCTION TO KEYCODES
     function control(e){
@@ -188,4 +186,16 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySquares[displayIndex + index].classList.add('tetromino');
         });
     }
+
+    startButton.addEventListener('click', () => {
+        if(timerId){
+            clearInterval(timerId);
+            timerId = null;
+        } else {
+            draw();
+            timerId = setInterval(moveDown, 1000);
+            nextRandom = Math.floor(Math.random()*theTetrominoes.length);
+            displayShape();
+        }
+    })
 });
