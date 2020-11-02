@@ -99,15 +99,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function freeze() {
-        if(current.some(index => squares[currentPosition + index + width]
-            .classList.contains('taken'))) {
-            
-            
-                current.forEach(index => squares[currentPosition + index].classList.add('taken'));
-                random = Math.floor(Math.random() * theTetrominoes.length);
-                current = theTetrominoes[random][currentRotation];
-                currentPosition = 4;
-                draw();
+        if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            current.forEach(index => squares[currentPosition + index].classList.add('taken'));
+            random = Math.floor(Math.random() * theTetrominoes.length);
+            current = theTetrominoes[random][currentRotation];
+            currentPosition = 4;
+            draw();
         }
+    }
+
+    function moveLeft(){
+        undraw();
+        //.some testa se ALGUM item do array satisfaz a propriedade definida 
+        const isAtLeftEdge = current.some(index => 
+            ((currentPosition + index) % width === 0)
+        );
+
+        if(!isAtLeftEdge) currentPosition-=1;
+
+        if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            currentPosition += 1;
+        }
+
+        draw();
     }
 });
