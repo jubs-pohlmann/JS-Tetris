@@ -31,7 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
                    20 21 22]
     os valores seguintes serao todas as rotacoes possiveis do tetromino.
     */
-   const lTetromino = [
+
+    //DRAWING TETROMINOES USING classList.add()
+    const lTetromino = [
         [1, width+1, width*2+1, 2],
         [width, width+1, width+2, width*2+2],
         [1, width+1, width*2+1, width*2+2],
@@ -84,5 +86,28 @@ document.addEventListener('DOMContentLoaded', () => {
         current.forEach(index => {
             squares[currentPosition + index].classList.remove('tetromino');
         });
+    }
+    
+    //TIMES AND INTERVALS
+    timerId = setInterval(moveDown, 1000);
+
+    function moveDown() {
+        undraw();
+        currentPosition += width;
+        draw();
+        freeze();
+    }
+
+    function freeze() {
+        if(current.some(index => squares[currentPosition + index + width]
+            .classList.contains('taken'))) {
+            
+            
+                current.forEach(index => squares[currentPosition + index].classList.add('taken'));
+                random = Math.floor(Math.random() * theTetrominoes.length);
+                current = theTetrominoes[random][currentRotation];
+                currentPosition = 4;
+                draw();
+        }
     }
 });
